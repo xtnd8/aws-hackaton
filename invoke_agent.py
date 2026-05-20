@@ -2,13 +2,14 @@
 import boto3
 import sys
 
-AGENT_ID = "JEIVSFQVBI"
+AGENT_ID = "2CVKKHMWQD"  # Updated after deploy
 AGENT_ALIAS_ID = "TSTALIASID"
 SESSION_ID = "test-session-001"
+REGION = "eu-west-1"
 
-input_text = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Hello, my name is Alice"
+input_text = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Hello, what can you do?"
 
-client = boto3.client("bedrock-agent-runtime", region_name="eu-west-1")
+client = boto3.client("bedrock-agent-runtime", region_name=REGION)
 
 response = client.invoke_agent(
     agentId=AGENT_ID,
@@ -18,7 +19,6 @@ response = client.invoke_agent(
     enableTrace=True,
 )
 
-# The response is an event stream — collect the chunks
 completion = ""
 for event in response["completion"]:
     if "chunk" in event:

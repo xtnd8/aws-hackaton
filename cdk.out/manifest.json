@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/41aa733a6b46b1b5b70fb8719f637e77ee3e924f1013b5f9f0b91ab8d9931cb0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0ad6a12a0abef89b90c26f8bbaaad9db22187e2811e0ee8b3ef6ddc153070bc3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -71,6 +71,42 @@
             "data": "BedrockAgent"
           }
         ],
+        "/BedrockAgentStack/UILambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UILambdaServiceRoleC90E8E4F"
+          }
+        ],
+        "/BedrockAgentStack/UILambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UILambdaServiceRoleDefaultPolicy84707215"
+          }
+        ],
+        "/BedrockAgentStack/UILambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UILambda6F448733"
+          }
+        ],
+        "/BedrockAgentStack/UILambda/FunctionUrl/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UILambdaFunctionUrl05B296E1"
+          }
+        ],
+        "/BedrockAgentStack/UILambda/invoke-function-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UILambdainvokefunctionurl3C774DA1"
+          }
+        ],
+        "/BedrockAgentStack/UILambda/PublicInvoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UILambdaPublicInvoke3CCD89F3"
+          }
+        ],
         "/BedrockAgentStack/AgentId": [
           {
             "type": "aws:cdk:logicalId",
@@ -83,10 +119,16 @@
             "data": "AgentName"
           }
         ],
-        "/BedrockAgentStack/LambdaFunctionName": [
+        "/BedrockAgentStack/ActionLambda": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "LambdaFunctionName"
+            "data": "ActionLambda"
+          }
+        ],
+        "/BedrockAgentStack/UIUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UIUrl"
           }
         ],
         "/BedrockAgentStack/CDKMetadata/Default": [

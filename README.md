@@ -1,18 +1,30 @@
-# Simple Amazon Bedrock Agent
+# AVDV Cyclomatic Complexity Agent
 
-A minimal, deployable Bedrock Agent built with AWS CDK (Python). The agent uses Claude Sonnet 4.5 (via EU cross-region inference profile) and has a single action group that greets users by name.
+An AI agent that analyzes cyclomatic complexity of code snippets and GitHub repositories. Built with Amazon Bedrock Agents and deployed via AWS CDK.
+
+## Architecture
+
+- **Bedrock Agent** — orchestrates conversation using Claude Sonnet 4.5 (eu-west-1 cross-region inference)
+- **Action Group Lambda** — computes McCabe's cyclomatic complexity for code snippets and fetches/analyzes GitHub repos
+- **UI Lambda** — serves a chat web interface via Lambda Function URL, proxies requests to the Bedrock Agent
+
+## Features
+
+- Analyze cyclomatic complexity of pasted code snippets
+- Analyze all Python files in a public GitHub repository
+- Get explanations and refactoring suggestions
+- Web-based chat UI (no auth required)
 
 ## Prerequisites
 
 - Python 3.12+
 - AWS CDK CLI (`npm install -g aws-cdk`)
-- AWS credentials configured (profile or environment variables)
-- Bedrock model access enabled for `eu.anthropic.claude-sonnet-4-5-20250929-v1:0` in your region (eu-west-1)
+- AWS credentials configured
+- Bedrock model access enabled for `eu.anthropic.claude-sonnet-4-5-20250929-v1:0` in eu-west-1
 
 ## Setup
 
 ```bash
-cd bedrock-agent
 python -m venv .venv
 .venv\Scripts\activate      # Windows
 pip install -r requirements.txt
@@ -25,18 +37,16 @@ cdk bootstrap   # first time only
 cdk deploy
 ```
 
-## Test
+After deploy, the UI URL is printed in the outputs.
 
-After deployment, go to the **Amazon Bedrock > Agents** console, find `SimpleGreetingAgent`, and use the built-in test chat to say "Hello, my name is Alice".
+## Test (CLI)
+
+```bash
+python invoke_agent.py "Analyze this repo: https://github.com/xtnd8/aws-hackaton"
+```
 
 ## Clean Up
 
 ```bash
 cdk destroy
 ```
-
-## Architecture
-
-- **Bedrock Agent** — orchestrates conversation using Claude Sonnet 4.5
-- **Action Group** — defines a `/greet` API backed by a Lambda function
-- **Lambda** — returns a personalized greeting message

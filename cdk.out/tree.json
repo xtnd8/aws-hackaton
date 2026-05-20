@@ -199,9 +199,10 @@
                       "s3Bucket": {
                         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                       },
-                      "s3Key": "e01fcff1c161ec2317bdffc58606d4fb6baadf97e88f78244b046dd3375e9f74.zip"
+                      "s3Key": "d1907141bff1e1528b260969d6e134f8fd97f0c3fe23400b2a08f799b0bad527.zip"
                     },
                     "handler": "action_group.handler",
+                    "memorySize": 256,
                     "role": {
                       "Fn::GetAtt": [
                         "ActionGroupLambdaServiceRoleFAFED559",
@@ -209,7 +210,7 @@
                       ]
                     },
                     "runtime": "python3.12",
-                    "timeout": 30
+                    "timeout": 120
                   }
                 },
                 "constructInfo": {
@@ -253,7 +254,7 @@
               "aws:cdk:cloudformation:props": {
                 "actionGroups": [
                   {
-                    "actionGroupName": "GreetingActions",
+                    "actionGroupName": "ComplexityAnalysis",
                     "actionGroupExecutor": {
                       "lambda": {
                         "Fn::GetAtt": [
@@ -263,9 +264,9 @@
                       }
                     },
                     "apiSchema": {
-                      "payload": "{\"openapi\": \"3.0.0\", \"info\": {\"title\": \"Greeting API\", \"version\": \"1.0.0\", \"description\": \"A simple greeting action group for the Bedrock Agent.\"}, \"paths\": {\"/greet\": {\"get\": {\"summary\": \"Greet a user by name\", \"description\": \"Returns a personalized greeting message for the given name.\", \"operationId\": \"greetUser\", \"parameters\": [{\"name\": \"name\", \"in\": \"path\", \"description\": \"The name of the person to greet\", \"required\": true, \"schema\": {\"type\": \"string\"}}], \"responses\": {\"200\": {\"description\": \"Successful greeting\", \"content\": {\"application/json\": {\"schema\": {\"type\": \"object\", \"properties\": {\"message\": {\"type\": \"string\", \"description\": \"The greeting message\"}}}}}}}}}}}"
+                      "payload": "{\"openapi\": \"3.0.0\", \"info\": {\"title\": \"Cyclomatic Complexity API\", \"version\": \"1.0.0\", \"description\": \"Analyze cyclomatic complexity of code snippets and GitHub repositories.\"}, \"paths\": {\"/analyze-snippet\": {\"post\": {\"summary\": \"Analyze cyclomatic complexity of a code snippet\", \"description\": \"Computes McCabe's cyclomatic complexity for the provided source code.\", \"operationId\": \"analyzeSnippet\", \"parameters\": [{\"name\": \"code\", \"in\": \"query\", \"description\": \"The source code to analyze\", \"required\": true, \"schema\": {\"type\": \"string\"}}], \"responses\": {\"200\": {\"description\": \"Complexity analysis result\", \"content\": {\"application/json\": {\"schema\": {\"type\": \"object\", \"properties\": {\"complexity\": {\"type\": \"integer\"}, \"rating\": {\"type\": \"string\"}, \"details\": {\"type\": \"string\"}}}}}}}}}, \"/analyze-repo\": {\"post\": {\"summary\": \"Analyze cyclomatic complexity of a GitHub repository\", \"description\": \"Fetches all Python files from a public GitHub repo and computes complexity for each.\", \"operationId\": \"analyzeRepo\", \"parameters\": [{\"name\": \"repo_url\", \"in\": \"query\", \"description\": \"The GitHub repository URL (e.g. https://github.com/owner/repo)\", \"required\": true, \"schema\": {\"type\": \"string\"}}], \"responses\": {\"200\": {\"description\": \"Repository complexity report\", \"content\": {\"application/json\": {\"schema\": {\"type\": \"object\", \"properties\": {\"repo\": {\"type\": \"string\"}, \"files_analyzed\": {\"type\": \"integer\"}, \"total_complexity\": {\"type\": \"integer\"}, \"average_complexity\": {\"type\": \"number\"}, \"per_file_results\": {\"type\": \"array\"}}}}}}}}}}}"
                     },
-                    "description": "Actions for greeting users"
+                    "description": "Actions for analyzing cyclomatic complexity of code and repos"
                   }
                 ],
                 "agentName": "AVDV-cyclomatic-complexity-agent",
@@ -278,12 +279,264 @@
                 "autoPrepare": true,
                 "foundationModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
                 "idleSessionTtlInSeconds": 600,
-                "instruction": "You are a friendly greeting assistant. When a user asks to be greeted or says hello, use the greet action to respond with a personalized greeting. Always ask for the user's name if they haven't provided one."
+                "instruction": "You are a cyclomatic complexity analysis assistant. You help users understand and improve their code quality by analyzing cyclomatic complexity.\n\nWhen a user provides a code snippet, use the analyzeSnippet action to compute its complexity.\nWhen a user provides a GitHub repository URL, use the analyzeRepo action to analyze all Python files.\n\nAfter receiving results, provide:\n1. A clear summary of the complexity scores\n2. An explanation of what the scores mean\n3. Specific suggestions for reducing complexity if scores are high (>10)\n\nYou can also answer general questions about cyclomatic complexity, code quality metrics, and software engineering best practices."
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_bedrock.CfnAgent",
               "version": "2.178.0"
+            }
+          },
+          "UILambda": {
+            "id": "UILambda",
+            "path": "BedrockAgentStack/UILambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "BedrockAgentStack/UILambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "BedrockAgentStack/UILambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.178.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/UILambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.178.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "BedrockAgentStack/UILambda/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "BedrockAgentStack/UILambda/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "bedrock:InvokeAgent",
+                                  "Effect": "Allow",
+                                  "Resource": "*"
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "UILambdaServiceRoleDefaultPolicy84707215",
+                            "roles": [
+                              {
+                                "Ref": "UILambdaServiceRoleC90E8E4F"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.178.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.178.0",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.178.0",
+                  "metadata": []
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/UILambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/UILambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.178.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/UILambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.178.0",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.178.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/UILambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "3722c1a40f6f87ef8db51e9052c9af2ffcc97dd4fbecb9f78c21071a2bb4e201.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "AGENT_ID": {
+                          "Fn::GetAtt": [
+                            "BedrockAgent",
+                            "AgentId"
+                          ]
+                        }
+                      }
+                    },
+                    "functionName": "AVDV-complexity-ui",
+                    "handler": "ui_handler.handler",
+                    "memorySize": 256,
+                    "role": {
+                      "Fn::GetAtt": [
+                        "UILambdaServiceRoleC90E8E4F",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.12",
+                    "timeout": 120
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.178.0"
+                }
+              },
+              "FunctionUrl": {
+                "id": "FunctionUrl",
+                "path": "BedrockAgentStack/UILambda/FunctionUrl",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/UILambda/FunctionUrl/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Url",
+                      "aws:cdk:cloudformation:props": {
+                        "authType": "NONE",
+                        "targetFunctionArn": {
+                          "Fn::GetAtt": [
+                            "UILambda6F448733",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnUrl",
+                      "version": "2.178.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.FunctionUrl",
+                  "version": "2.178.0",
+                  "metadata": []
+                }
+              },
+              "invoke-function-url": {
+                "id": "invoke-function-url",
+                "path": "BedrockAgentStack/UILambda/invoke-function-url",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunctionUrl",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "UILambda6F448733",
+                        "Arn"
+                      ]
+                    },
+                    "functionUrlAuthType": "NONE",
+                    "principal": "*"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.178.0"
+                }
+              },
+              "PublicInvoke": {
+                "id": "PublicInvoke",
+                "path": "BedrockAgentStack/UILambda/PublicInvoke",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunctionUrl",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "UILambda6F448733",
+                        "Arn"
+                      ]
+                    },
+                    "functionUrlAuthType": "NONE",
+                    "principal": "*"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.178.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.178.0",
+              "metadata": []
             }
           },
           "AgentId": {
@@ -302,9 +555,17 @@
               "version": "2.178.0"
             }
           },
-          "LambdaFunctionName": {
-            "id": "LambdaFunctionName",
-            "path": "BedrockAgentStack/LambdaFunctionName",
+          "ActionLambda": {
+            "id": "ActionLambda",
+            "path": "BedrockAgentStack/ActionLambda",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.178.0"
+            }
+          },
+          "UIUrl": {
+            "id": "UIUrl",
+            "path": "BedrockAgentStack/UIUrl",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.178.0"
