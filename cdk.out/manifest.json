@@ -1,0 +1,125 @@
+{
+  "version": "39.0.0",
+  "artifacts": {
+    "BedrockAgentStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "BedrockAgentStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "BedrockAgentStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "BedrockAgentStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2309c4cc1f9d3fd14c76c191188c80da180d649e92f0f2cc40dd10bec5430066.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "BedrockAgentStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "BedrockAgentStack.assets"
+      ],
+      "metadata": {
+        "/BedrockAgentStack/BedrockAgentRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BedrockAgentRole7C982E0C"
+          }
+        ],
+        "/BedrockAgentStack/BedrockAgentRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BedrockAgentRoleDefaultPolicy1462CD5B"
+          }
+        ],
+        "/BedrockAgentStack/ActionGroupLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionGroupLambdaServiceRoleFAFED559"
+          }
+        ],
+        "/BedrockAgentStack/ActionGroupLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionGroupLambdaDAF0E21B"
+          }
+        ],
+        "/BedrockAgentStack/ActionGroupLambda/AllowBedrockInvoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ActionGroupLambdaAllowBedrockInvoke6C973DFF"
+          }
+        ],
+        "/BedrockAgentStack/BedrockAgent": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BedrockAgent"
+          }
+        ],
+        "/BedrockAgentStack/AgentId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AgentId"
+          }
+        ],
+        "/BedrockAgentStack/AgentName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AgentName"
+          }
+        ],
+        "/BedrockAgentStack/LambdaFunctionName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaFunctionName"
+          }
+        ],
+        "/BedrockAgentStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/BedrockAgentStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/BedrockAgentStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/BedrockAgentStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "BedrockAgentStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

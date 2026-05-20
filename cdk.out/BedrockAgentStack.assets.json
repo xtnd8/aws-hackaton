@@ -1,0 +1,32 @@
+{
+  "version": "39.0.0",
+  "files": {
+    "e01fcff1c161ec2317bdffc58606d4fb6baadf97e88f78244b046dd3375e9f74": {
+      "source": {
+        "path": "asset.e01fcff1c161ec2317bdffc58606d4fb6baadf97e88f78244b046dd3375e9f74",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "e01fcff1c161ec2317bdffc58606d4fb6baadf97e88f78244b046dd3375e9f74.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "2309c4cc1f9d3fd14c76c191188c80da180d649e92f0f2cc40dd10bec5430066": {
+      "source": {
+        "path": "BedrockAgentStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "2309c4cc1f9d3fd14c76c191188c80da180d649e92f0f2cc40dd10bec5430066.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

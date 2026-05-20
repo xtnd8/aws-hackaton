@@ -1,0 +1,375 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "BedrockAgentStack": {
+        "id": "BedrockAgentStack",
+        "path": "BedrockAgentStack",
+        "children": {
+          "BedrockAgentRole": {
+            "id": "BedrockAgentRole",
+            "path": "BedrockAgentStack/BedrockAgentRole",
+            "children": {
+              "ImportBedrockAgentRole": {
+                "id": "ImportBedrockAgentRole",
+                "path": "BedrockAgentStack/BedrockAgentRole/ImportBedrockAgentRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.178.0",
+                  "metadata": []
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/BedrockAgentRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "bedrock.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "description": "Role assumed by the Bedrock Agent"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.178.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "BedrockAgentStack/BedrockAgentRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/BedrockAgentRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream",
+                                "bedrock:GetInferenceProfile",
+                                "bedrock:GetFoundationModel"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": "*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "BedrockAgentRoleDefaultPolicy1462CD5B",
+                        "roles": [
+                          {
+                            "Ref": "BedrockAgentRole7C982E0C"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.178.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.178.0",
+                  "metadata": []
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.178.0",
+              "metadata": []
+            }
+          },
+          "ActionGroupLambda": {
+            "id": "ActionGroupLambda",
+            "path": "BedrockAgentStack/ActionGroupLambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "BedrockAgentStack/ActionGroupLambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "BedrockAgentStack/ActionGroupLambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.178.0",
+                      "metadata": []
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "BedrockAgentStack/ActionGroupLambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.178.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.178.0",
+                  "metadata": []
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "BedrockAgentStack/ActionGroupLambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "BedrockAgentStack/ActionGroupLambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.178.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "BedrockAgentStack/ActionGroupLambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.178.0",
+                      "metadata": []
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.178.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "BedrockAgentStack/ActionGroupLambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "e01fcff1c161ec2317bdffc58606d4fb6baadf97e88f78244b046dd3375e9f74.zip"
+                    },
+                    "handler": "action_group.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "ActionGroupLambdaServiceRoleFAFED559",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.12",
+                    "timeout": 30
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.178.0"
+                }
+              },
+              "AllowBedrockInvoke": {
+                "id": "AllowBedrockInvoke",
+                "path": "BedrockAgentStack/ActionGroupLambda/AllowBedrockInvoke",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "ActionGroupLambdaDAF0E21B",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "bedrock.amazonaws.com"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.178.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.178.0",
+              "metadata": []
+            }
+          },
+          "BedrockAgent": {
+            "id": "BedrockAgent",
+            "path": "BedrockAgentStack/BedrockAgent",
+            "attributes": {
+              "aws:cdk:cloudformation:type": "AWS::Bedrock::Agent",
+              "aws:cdk:cloudformation:props": {
+                "actionGroups": [
+                  {
+                    "actionGroupName": "GreetingActions",
+                    "actionGroupExecutor": {
+                      "lambda": {
+                        "Fn::GetAtt": [
+                          "ActionGroupLambdaDAF0E21B",
+                          "Arn"
+                        ]
+                      }
+                    },
+                    "apiSchema": {
+                      "payload": "{\"openapi\": \"3.0.0\", \"info\": {\"title\": \"Greeting API\", \"version\": \"1.0.0\", \"description\": \"A simple greeting action group for the Bedrock Agent.\"}, \"paths\": {\"/greet\": {\"get\": {\"summary\": \"Greet a user by name\", \"description\": \"Returns a personalized greeting message for the given name.\", \"operationId\": \"greetUser\", \"parameters\": [{\"name\": \"name\", \"in\": \"path\", \"description\": \"The name of the person to greet\", \"required\": true, \"schema\": {\"type\": \"string\"}}], \"responses\": {\"200\": {\"description\": \"Successful greeting\", \"content\": {\"application/json\": {\"schema\": {\"type\": \"object\", \"properties\": {\"message\": {\"type\": \"string\", \"description\": \"The greeting message\"}}}}}}}}}}}"
+                    },
+                    "description": "Actions for greeting users"
+                  }
+                ],
+                "agentName": "SimpleGreetingAgent",
+                "agentResourceRoleArn": {
+                  "Fn::GetAtt": [
+                    "BedrockAgentRole7C982E0C",
+                    "Arn"
+                  ]
+                },
+                "autoPrepare": true,
+                "foundationModel": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+                "idleSessionTtlInSeconds": 600,
+                "instruction": "You are a friendly greeting assistant. When a user asks to be greeted or says hello, use the greet action to respond with a personalized greeting. Always ask for the user's name if they haven't provided one."
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_bedrock.CfnAgent",
+              "version": "2.178.0"
+            }
+          },
+          "AgentId": {
+            "id": "AgentId",
+            "path": "BedrockAgentStack/AgentId",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.178.0"
+            }
+          },
+          "AgentName": {
+            "id": "AgentName",
+            "path": "BedrockAgentStack/AgentName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.178.0"
+            }
+          },
+          "LambdaFunctionName": {
+            "id": "LambdaFunctionName",
+            "path": "BedrockAgentStack/LambdaFunctionName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.178.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "BedrockAgentStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "BedrockAgentStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.178.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "BedrockAgentStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.178.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.6.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "BedrockAgentStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.178.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "BedrockAgentStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.178.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.178.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.6.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.178.0"
+    }
+  }
+}
