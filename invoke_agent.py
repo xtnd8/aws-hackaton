@@ -2,7 +2,7 @@
 import boto3
 import sys
 
-AGENT_ID = "BIJDR9FDGL"
+AGENT_ID = "JEIVSFQVBI"
 AGENT_ALIAS_ID = "TSTALIASID"
 SESSION_ID = "test-session-001"
 

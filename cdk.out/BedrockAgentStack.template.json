@@ -149,7 +149,7 @@
       "Description": "Actions for greeting users"
      }
     ],
-    "AgentName": "SimpleGreetingAgent",
+    "AgentName": "AVDV-cyclomatic-complexity-agent",
     "AgentResourceRoleArn": {
      "Fn::GetAtt": [
       "BedrockAgentRole7C982E0C",
@@ -189,7 +189,7 @@
    }
   },
   "AgentName": {
-   "Value": "SimpleGreetingAgent"
+   "Value": "AVDV-cyclomatic-complexity-agent"
   },
   "LambdaFunctionName": {
    "Value": {

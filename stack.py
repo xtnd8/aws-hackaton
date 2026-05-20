@@ -107,7 +107,7 @@ class BedrockAgentStack(Stack):
         agent = bedrock.CfnAgent(
             self,
             "BedrockAgent",
-            agent_name="SimpleGreetingAgent",
+            agent_name="AVDV-cyclomatic-complexity-agent",
             agent_resource_role_arn=agent_role.role_arn,
             foundation_model="eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
             instruction=(
@@ -136,5 +136,5 @@ class BedrockAgentStack(Stack):
 
         # --- Outputs ---
         cdk.CfnOutput(self, "AgentId", value=agent.attr_agent_id)
-        cdk.CfnOutput(self, "AgentName", value="SimpleGreetingAgent")
+        cdk.CfnOutput(self, "AgentName", value="AVDV-cyclomatic-complexity-agent")
         cdk.CfnOutput(self, "LambdaFunctionName", value=action_lambda.function_name)

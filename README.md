@@ -1,13 +1,13 @@
 # Simple Amazon Bedrock Agent
 
-A minimal, deployable Bedrock Agent built with AWS CDK (Python). The agent uses Claude 3 Haiku and has a single action group that greets users by name.
+A minimal, deployable Bedrock Agent built with AWS CDK (Python). The agent uses Claude Sonnet 4.5 (via EU cross-region inference profile) and has a single action group that greets users by name.
 
 ## Prerequisites
 
 - Python 3.12+
 - AWS CDK CLI (`npm install -g aws-cdk`)
 - AWS credentials configured (profile or environment variables)
-- Bedrock model access enabled for `anthropic.claude-3-haiku-20240307-v1:0` in your region
+- Bedrock model access enabled for `eu.anthropic.claude-sonnet-4-5-20250929-v1:0` in your region (eu-west-1)
 
 ## Setup
 
@@ -37,6 +37,6 @@ cdk destroy
 
 ## Architecture
 
-- **Bedrock Agent** — orchestrates conversation using Claude 3 Haiku
+- **Bedrock Agent** — orchestrates conversation using Claude Sonnet 4.5
 - **Action Group** — defines a `/greet` API backed by a Lambda function
 - **Lambda** — returns a personalized greeting message
